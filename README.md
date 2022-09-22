@@ -45,13 +45,13 @@ I keep this tutorial handy in case I do a clean OS install or if I need to check
     - [Argparse-bash by nhoffman](#argparse-bash-by-nhoffman)
     - [LaTeX helpers](#latex-helpers)
 - [Install Pandoc to convert/export markdown, HTML, LaTeX, Word](#install-pandoc-to-convertexport-markdown-html-latex-word)
+- [CUDA and GPU settings](#cuda-and-gpu-settings)
 - [Accessibility Stuff](#accessibility-stuff)
     - [Accessible Color Palettes with Paletton](#accessible-color-palettes-with-paletton)
     - [Reading tools for Neurodivergent people](#reading-tools-for-neurodivergent-people)
     - [Reading white PDFs](#reading-white-pdfs)
         - [Firefox](#firefox)
         - [Google Chrome](#google-chrome)
-- [CUDA and GPU settings](#cuda-and-gpu-settings)
 
 <!-- /MarkdownTOC -->
 
@@ -1488,6 +1488,31 @@ Block:  `$$x=3$$`
 Renders as:  
 $$x=3$$
 
+<a id="cuda-and-gpu-settings"></a>
+## CUDA and GPU settings
+
+For a linux server to use an nvidia GPU for calculations instead of the CPU, we need to install CUDA, and for neural networks specifically, cuDNN is also needed.
+
+1. NVIDIA drivers installation guide:  
+    https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html
+
+
+2. CUDA Installation guide:  
+    https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
+
+3. cuDNN installation guide:  
+    https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#download
+
+If you already have nvidia or cuda tools installed and want to upgrade, you can use these commands before installing the new software:
+
+```
+apt remove --purge cuda*
+apt remove --purge nvidia*
+apt remove --purge libcuda*
+```
+
+Be prepared to run your server in console only mode, since you'll be altering the graphics drivers during this process.
+
 
 <a id="accessibility-stuff"></a>
 ## Accessibility Stuff
@@ -1573,10 +1598,7 @@ document.body.appendChild(overlay);
 >
 > Special thanks: https://www.reddit.com/r/chrome/comments/e3txhi/comment/fem1cto
 
-<a id="cuda-and-gpu-settings"></a>
-## CUDA and GPU settings
 
-*In Progress*
 
 ---
 
