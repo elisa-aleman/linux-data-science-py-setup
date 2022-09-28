@@ -10,6 +10,7 @@ I keep this tutorial handy in case I do a clean OS install or if I need to check
 
 - [WSL installation guide](#wsl-installation-guide)
     - [WSL: Paths to directories outside of the Linux environment](#wsl-paths-to-directories-outside-of-the-linux-environment)
+    - [WSL: About .profile and .bash_profile](#wsl-about-profile-and-bash_profile)
 - [Basic Settings](#basic-settings)
     - [Install basic apt and apt-get software](#install-basic-apt-and-apt-get-software)
     - [Install SublimeText](#install-sublimetext)
@@ -49,7 +50,6 @@ I keep this tutorial handy in case I do a clean OS install or if I need to check
     - [Argparse-bash by nhoffman](#argparse-bash-by-nhoffman)
     - [LaTeX helpers](#latex-helpers)
 - [Install Pandoc to convert/export markdown, HTML, LaTeX, Word](#install-pandoc-to-convertexport-markdown-html-latex-word)
-- ```
 - [CUDA and GPU settings](#cuda-and-gpu-settings)
 - [Accessibility Stuff](#accessibility-stuff)
     - [Accessible Color Palettes with Paletton](#accessible-color-palettes-with-paletton)
@@ -74,6 +74,23 @@ https://www.groovypost.com/howto/install-windows-subsystem-for-linux-in-windows-
 ### WSL: Paths to directories outside of the Linux environment
 
 If in the above tutorial for separate git accounts, for example, you needed to use paths to locations in the Windows system, you can replace C: with /mnt/c/
+
+<a id="wsl-about-profile-and-bash_profile"></a>
+### WSL: About .profile and .bash_profile
+
+There is a difference between running an interactive shell inside of a started up Linux system, say, if you had Ubuntu installed the regular way, and running the main WSL window. 
+
+Running the WSL software inside Windows opens a login shell, which is different from the interactive shell we are used to.
+
+Login shells load .profile, which then reads .bashrc if the shell being used is bash. However, .profile is ignored if there exists a .bash_profile, which means usually that .bashrc will never be read, and so will also .bash_aliases not be read.
+
+This can be fixed in a few ways:
+
+1. Run the command `bash` every time at start up to open an interactive shell inside the login shell. The only difference this makes is that to exit WSL via commands you'd have to run `exit` on the interactive shell and then on the login shell, twice.
+
+2. Move all the contents of .bash_profile to .profile, then delete .bash_profile so that there's nothing stopping all the initial codes from running even in a login shell.
+
+3. Add `source ~/.profile` to the beginning of .bash_profile so that it is run regardless, and therefore also loads .bashrc if necessary. Personally I chose this one.
 
 <a id="basic-settings"></a>
 ## Basic Settings
@@ -1608,7 +1625,6 @@ But it doesn't load the Font for Japanese... Also, the default margins are way t
 
 So, in the original markdown file preamble we need to add [Variables for LaTeX](https://pandoc.org/MANUAL.html#variables-for-latex):
 
-<a id="```"></a>
 ```
 ---
 title: "Title"
