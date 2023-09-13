@@ -16,8 +16,19 @@ I keep this tutorial handy in case I do a clean OS install or if I need to check
     - [Install SublimeText](#install-sublimetext)
         - [Easy TeX math: Add paired $ signs to the keybinds](#easy-tex-math-add-paired--signs-to-the-keybinds)
     - [Easily transform 2 spaced indent to 4 spaced indent](#easily-transform-2-spaced-indent-to-4-spaced-indent)
-- [Install Python with pyenv](#install-python-with-pyenv)
-    - [Install virtualenv](#install-virtualenv)
+- [Setup Git](#setup-git)
+    - [Check your branches in git log history in a pretty line](#check-your-branches-in-git-log-history-in-a-pretty-line)
+    - [Push with tags: multi-line git alias](#push-with-tags-multi-line-git-alias)
+    - [GitHub Markdown math expressions for README.md, etc.](#github-markdown-math-expressions-for-readmemd-etc)
+    - [GitLab Markdown math expressions for README.md, etc.](#gitlab-markdown-math-expressions-for-readmemd-etc)
+    - [Install Git Large File System](#install-git-large-file-system)
+    - [Make a new Git \(LFS\) repository from local](#make-a-new-git-lfs-repository-from-local)
+    - [Manage multiple GitHub or GitLab accounts](#manage-multiple-github-or-gitlab-accounts)
+        - [WSL and Windows shared ssh keys for multiple git accounts](#wsl-and-windows-shared-ssh-keys-for-multiple-git-accounts)
+- [Install Docker Engine for Linux.](#install-docker-engine-for-linux)
+- [Install Python versions with pyenv and virtual environments with poetry](#install-python-versions-with-pyenv-and-virtual-environments-with-poetry)
+    - [Install pyenv first](#install-pyenv-first)
+    - [Install poetry](#install-poetry)
     - [Useful Data Science libraries](#useful-data-science-libraries)
         - [Basic tasks:](#basic-tasks)
         - [Plotting:](#plotting)
@@ -31,14 +42,6 @@ I keep this tutorial handy in case I do a clean OS install or if I need to check
         - [Computer Vision \(OpenCV\)](#computer-vision-opencv)
             - [Install OpenCV with ffmpeg](#install-opencv-with-ffmpeg)
 - [Install and setup Flask for Python Web Development](#install-and-setup-flask-for-python-web-development)
-- [Setup Git](#setup-git)
-    - [Check your branches in git log history in a pretty line](#check-your-branches-in-git-log-history-in-a-pretty-line)
-    - [GitHub Markdown math expressions for README.md, etc.](#github-markdown-math-expressions-for-readmemd-etc)
-    - [GitLab Markdown math expressions for README.md, etc.](#gitlab-markdown-math-expressions-for-readmemd-etc)
-    - [Install Git Large File System](#install-git-large-file-system)
-    - [Make a new Git \(LFS\) repository from local](#make-a-new-git-lfs-repository-from-local)
-    - [Manage multiple GitHub or GitLab accounts](#manage-multiple-github-or-gitlab-accounts)
-        - [WSL and Windows shared ssh keys for multiple git accounts](#wsl-and-windows-shared-ssh-keys-for-multiple-git-accounts)
 - [Install and setup Ruby, Bundler and Jekyll for websites](#install-and-setup-ruby-bundler-and-jekyll-for-websites)
 - [Install LaTeX and latexdiff](#install-latex-and-latexdiff)
     - [Use my LaTeX helper shell scripts for faster compilation](#use-my-latex-helper-shell-scripts-for-faster-compilation)
@@ -204,6 +207,12 @@ In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and
 }
 ```
 
+After installing Markdown Editing, add this to the SublimeText4 preferences (my personal preferences)
+
+```
+"mde.auto_fold_link.enabled": false,
+```
+
 <a id="easy-tex-math-add-paired--signs-to-the-keybinds"></a>
 #### Easy TeX math: Add paired $ signs to the keybinds
 
@@ -264,372 +273,6 @@ https://forum.sublimetext.com/t/can-i-easily-change-all-existing-2-space-indents
 - Select the desired space number
 - Click Convert indentation to Spaces
 
-<a id="install-python-with-pyenv"></a>
-## Install Python with pyenv
-
-Depending on your installation, you might already have a python, but it is better to avoid using it as it interacts with the system, so we install a local version with Pyenv. Pyenv also makes it so that pip and python are always matched for each other in the correct version.
-
-This is specially useful if you need different versions for different projects (Maybe caused by tensorflow updates vs other libraries updates...), you should follow these tutorials:
-
-https://github.com/pyenv/pyenv#installation
-
-For Linux, we have to use the github distribution, clone it and install it with make. Then we add the paths to .bash_profile for bash or to .zprofile for zsh.
-
-```
-cd ~
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-cd ~/.pyenv && src/configure && make -C src
-cd ~
-
-source ~/.bash_profile
-```
-
-Now let's install and set the latest version:
-```
-pyenv install 3.10.7
-pyenv global 3.10.7
-```
-
-And then we can add it to our PATH so that every time we open `python` it's the pyenv one and not the system one:
-
-```
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
-echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
-
-source ~/.bash_profile
-```
-
-That `eval` line I found out thanks to [this StackOverflow post](https://stackoverflow.com/questions/33321312/cannot-switch-python-with-pyenv)
-
-We can confirm we are using the correct one:
-
-```
-pyenv versions
-which python
-python -V
-which pip
-pip -V
-```
-
-<a id="install-virtualenv"></a>
-### Install virtualenv
-
-Virtualenv allows me to install different libraries under pip for specific projects.
-
-```
-pip install virtualenv
-```
-
-Usage guide is here:<br>
-https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html
-
-<a id="useful-data-science-libraries"></a>
-### Useful Data Science libraries
-
-This is my generic fresh start install so I can work. Usually I'd install all of them in general, but recently I only install the necessary libraries under venv. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
-
-<a id="basic-tasks"></a>
-#### Basic tasks:
-
-```
-pip install numpy scipy jupyter statsmodels \
-pandas pathlib tqdm retry openpyxl
-```
-
-<a id="plotting"></a>
-#### Plotting:
-```
-pip install matplotlib adjustText plotly kaleido
-```
-
-<a id="basic-data-science-and-machine-learning"></a>
-#### Basic data science and machine learning:
-```
-pip install sklearn sympy pyclustering
-```
-
-<a id="data-mining--text-mining--crawling--scraping-websites"></a>
-#### Data mining / text mining / crawling / scraping websites:
-```
-pip install beautifulsoup4 requests selenium
-```
-
-<a id="natural-language-processing-nlp"></a>
-#### Natural language processing (NLP):
-```
-pip install gensim nltk langdetect
-```
-
-For Japanese NLP tools see:
-https://github.com/elisa-aleman/MeCab-python
-
-For Chinese NLP tools see:
-https://github.com/elisa-aleman/StanfordCoreNLP_Chinese
-
-<a id="neural-network-and-machine-learning"></a>
-#### Neural network and machine learning:
-```
-pip install tensorflow tflearn keras \
-torch torchaudio torchvision \
-optuna
-```
-<a id="xgboost"></a>
-#### XGBoost 
-
-To Install with CPU:
-```
-pip install xgboost
-```
-
-To Install with CUDA GPU integration:
-```
-git clone --recursive https://github.com/dmlc/xgboost
-cd xgboost
-mkdir build
-cd build
-cmake .. -DUSE_CUDA=ON
-make -j8
-cd ../python-package
-python setup.py install
-```
-
-<a id="lightgbm"></a>
-#### LightGBM
-
-To Install with CPU:
-
-```
-pip install lightgbm
-```
-
-Install dependencies:
-```
-apt-get install libboost-all-dev
-apt install ocl-icd-libopencl1
-apt install opencl-headers
-apt install clinfo
-apt install ocl-icd-opencl-dev
-```
-Install with CUDA GPU integration:
-
-```
-pip install lightgbm --install-option=--gpu --install-option="--opencl-include-dir=/usr/local/cuda/include/" --install-option="--opencl-library=/usr/local/cuda/lib64/libOpenCL.so"
-```
-
-<a id="minepy--maximal-information-coefficient"></a>
-#### MINEPY / Maximal Information Coefficient
-
-For Minepy / Maximal Information Coefficient, we need the Visual Studio C++ Build Tools as a dependency, so install it first:<br>
-https://visualstudio.microsoft.com/visual-cpp-build-tools/
-
-```
-pip install minepy
-```
-
-<a id="computer-vision-opencv"></a>
-#### Computer Vision (OpenCV)
-
-with CPU and no extra options:
-
-```
-python -m pip install -U opencv-python opencv-contrib-python
-```
-
-
-<a id="install-opencv-with-ffmpeg"></a>
-##### Install OpenCV with ffmpeg
-
-Install dependencies:
-
-```
-apt-get update
-apt-get upgrade
-apt-get install build-essential
-apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
-apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
-apt-get install libxvidcore-dev libx264-dev
-apt-get install libgtk-3-dev
-apt-get install libatlas-base-dev gfortran pylint
-apt-get install python2.7-dev python3.5-dev python3.6-dev
-apt-get install unzip
-```
-
-Now the ffmpeg dependency:
-```
-add-apt-repository ppa:jonathonf/ffmpeg-3
-apt update
-apt install ffmpeg libav-tools x264 x265
-```
-
-Check the version:
-```
-ffmpeg
-```
-
-Download and build opencv
-
-```
-wget https://github.com/opencv/opencv/archive/3.4.0.zip -O opencv-3.4.0.zip
-wget https://github.com/opencv/opencv_contrib/archive/3.4.0.zip -O opencv_contrib-3.4.0.zip
-
-unzip opencv-3.4.0.zip
-unzip opencv_contrib-3.4.0.zip
-
-cd  opencv-3.4.0
-mkdir build_3.5
-mkdir build
-cd build
-```
-
-Make, but remember to replace Python versions:
-
-```
-which python
-```
-
-```
-cmake -DCMAKE_BUILD_TYPE=Release \
-    -D WITH_FFMPEG=ON \
-    -D PYTHON3_EXECUTABLE=<path to your python> \
-    -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-3.4.0/modules \
-    -D OPENCV_ENABLE_NONFREE=True ..
-
-make -j8        #(where -j8 is for 8 cores in the server cpu)
-make install
-ldconfig
-```
-
-
-
-<a id="install-and-setup-flask-for-python-web-development"></a>
-## Install and setup Flask for Python Web Development
-
-I'm using this guide:
-https://flask.palletsprojects.com/en/2.1.x/installation/#install-flask
-
-For Web Development, it's apparently better to make a Virtual Environment to install flask project-wise instead of system or user level.
-
-First we go to our project and make the virtual environment.
-
-```
-cd my-project
-python -m venv venv
-. venv/scripts/activate
-```
-it might also be
-```
-. venv/bin/activate
-```
-so if one fails try the other.
-
-Activate results in the python and pip versions to be internal to the project now and active in the bash:
-
-```
-which python
->>> .... my-project\venv/Scripts/python
-
-pip --version
-pip 22.1 from c:\users\...\my-project\venv\lib\site-packages\pip (python 3.9)
-```
-
-So since this pip is empty, let's install ONLY what we need for the project:
-
-```
-pip install --upgrade pip
-pip install selenium beautifulsoup4 pandas pathlib retry
-pip install flask
-```
-
-Now let's test it:
-
-I'm using this guide here:
-
-https://flask.palletsprojects.com/en/2.1.x/quickstart/
-
-Under: `my-project/python/hello.py`
-```
-from flask import Flask
-
-app = Flask(__name__)
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-```
-Then in bash:
-
-```
-cd my-project/python
-export FLASK_APP=hello
-flask run
-```
-and it should return:
-
-```
- * Serving Flask app 'hello' (lazy loading)
- * Environment: production
-   WARNING: This is a development server. Do not use it in a production deployment.
-   Use a production WSGI server instead.
- * Debug mode: off
- * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
-```
-
-Unlike Jekyll, it won't update as you edit, unless you set up a development environment variable:
-
-```
-export FLASK_APP=hello
-export FLASK_ENV=development
-flask run
-```
-
-It will update, but you still have to click refresh on the screen.
-
-```
-from flask import Flask
-
-app = Flask(__name__)
-
-@app.route("/")
-def hello_world():
-    return "<h1>Hello, World!</h1>"
-```
-
-Now to make the project a package and keep running under the same structure as before, now I use this structure: (which by the way you can output with `tree -a -N -n --charset ascii | pbcopy` on the terminal if you install it with Homebrew with `brew install tree`).
-
-```
-my-project
-|-- .gitignore
-|-- README.md
-|-- logs
-|   `-- tasklog.md
-|-- python
-|   |-- ProjectPaths.py
-|   |-- __pycache__
-|   |-- package
-|   |   |-- __init__.py
-|   |   |-- __pycache__
-|   |   `-- module.py
-|   `-- tests
-|       |-- 0_test.py
-|       `-- __pycache__
-|-- requirements.txt
-`-- venv
-```
-
-`ProjectPaths.py` is just a bunch of methods I like to call to make directories without much hassle.
-
-To run the tests and the files in the package, now the command is like this:
-
-```
-cd my-project/python
-python -m tests.0_test
-```
-
-Notice that it's a `.` instead of a `/` and also there's no `.py`
-It should now run and import as if from the parent directory `python`
 
 <a id="setup-git"></a>
 ## Setup Git
@@ -711,6 +354,14 @@ And you run it like:
 ```
 git adog
 ```
+
+<a id="push-with-tags-multi-line-git-alias"></a>
+### Push with tags: multi-line git alias
+
+To add a multi-line alias, for example, push and then push the tags on one single command, use `'!git ... && git ...'` as a format:
+
+Push with tags:
+`git config --global alias.pusht '!git push && git push --tags'`
 
 <a id="github-markdown-math-expressions-for-readmemd-etc"></a>
 ### GitHub Markdown math expressions for README.md, etc.
@@ -1267,6 +918,412 @@ path = ~/personal/.gitconfig.pers
 path = /mnt/c/Users/<username>/personal/.gitconfig.pers
 ```
 
+
+<a id="install-docker-engine-for-linux"></a>
+## Install Docker Engine for Linux.
+
+Docker allows us to run server apps that share an internal environment separate from the OS.
+
+Follow the following guide for docker.
+https://docs.docker.com/engine/install/
+
+For Ubuntu, specifically, there's this guide:
+https://docs.docker.com/engine/install/ubuntu/
+
+Reboot after installing.
+
+<a id="install-python-versions-with-pyenv-and-virtual-environments-with-poetry"></a>
+## Install Python versions with pyenv and virtual environments with poetry
+
+<a id="install-pyenv-first"></a>
+### Install pyenv first
+
+Depending on your installation, you might already have a python, but it is better to avoid using it as it interacts with the system, so we install a local version with Pyenv. Pyenv also makes it so that pip and python are always matched for each other in the correct version.
+
+This is specially useful if you need different versions for different projects (Maybe caused by tensorflow updates vs other libraries updates...), you should follow these tutorials:
+
+https://github.com/pyenv/pyenv#installation
+
+For Linux, we have to use the github distribution, clone it and install it with make. Then we add the paths to .bash_profile for bash or to .zprofile for zsh.
+
+```
+cd ~
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+cd ~/.pyenv && src/configure && make -C src
+cd ~
+
+source ~/.bash_profile
+```
+
+Now let's install and set the latest version:
+```
+pyenv install 3.10.7
+pyenv global 3.10.7
+```
+
+And then we can add it to our PATH so that every time we open `python` it's the pyenv one and not the system one:
+
+```
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+
+source ~/.bash_profile
+```
+
+That `eval` line I found out thanks to [this StackOverflow post](https://stackoverflow.com/questions/33321312/cannot-switch-python-with-pyenv)
+
+We can confirm we are using the correct one:
+
+```
+pyenv versions
+which python
+python -V
+which pip
+pip -V
+```
+
+
+<a id="install-poetry"></a>
+### Install poetry
+
+Poetry is a tool to manage python project dependencies and environments in a version controlled (e.g. git) and group accessible syntax. It allows to use a virtual environment to locally install all dependencies, remove or update them as needed while having access to previous instances of the environment at a given time via the commit history
+
+```
+pip install poetry
+```
+
+Usage guide: https://python-poetry.org/
+
+Making a new project can be as easy as:
+
+```
+poetry new project-name-here
+cd project-name-here
+```
+
+Then, instead of using `pip install` or `pip uninstall` we use `poetry add`
+
+```
+poetry add pathlib
+```
+
+This updates the dependency control files `poetry.toml`, `poetry.lock`, and `pyproject.toml`, which can be committed to version control.
+
+And finally, when cloning a repository, you can use `poetry install` to easily install all the dependencies controlled by poetry in one command.
+
+<a id="useful-data-science-libraries"></a>
+### Useful Data Science libraries
+
+This is my generic fresh start install so I can work. Usually I'd install all of them in general, but recently I only install the necessary libraries under venv. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
+
+<a id="basic-tasks"></a>
+#### Basic tasks:
+
+```
+pip install numpy scipy jupyter statsmodels \
+pandas pathlib tqdm retry openpyxl
+```
+
+<a id="plotting"></a>
+#### Plotting:
+```
+pip install matplotlib adjustText plotly kaleido
+```
+
+<a id="basic-data-science-and-machine-learning"></a>
+#### Basic data science and machine learning:
+```
+pip install sklearn sympy pyclustering
+```
+
+<a id="data-mining--text-mining--crawling--scraping-websites"></a>
+#### Data mining / text mining / crawling / scraping websites:
+```
+pip install beautifulsoup4 requests selenium
+```
+
+<a id="natural-language-processing-nlp"></a>
+#### Natural language processing (NLP):
+```
+pip install gensim nltk langdetect
+```
+
+For Japanese NLP tools see:
+https://github.com/elisa-aleman/MeCab-python
+
+For Chinese NLP tools see:
+https://github.com/elisa-aleman/StanfordCoreNLP_Chinese
+
+<a id="neural-network-and-machine-learning"></a>
+#### Neural network and machine learning:
+```
+pip install tensorflow tflearn keras \
+torch torchaudio torchvision \
+optuna
+```
+<a id="xgboost"></a>
+#### XGBoost
+
+To Install with CPU:
+```
+pip install xgboost
+```
+
+To Install with CUDA GPU integration:
+```
+git clone --recursive https://github.com/dmlc/xgboost
+cd xgboost
+mkdir build
+cd build
+cmake .. -DUSE_CUDA=ON
+make -j8
+cd ../python-package
+python setup.py install
+```
+
+<a id="lightgbm"></a>
+#### LightGBM
+
+To Install with CPU:
+
+```
+pip install lightgbm
+```
+
+Install dependencies:
+```
+apt-get install libboost-all-dev
+apt install ocl-icd-libopencl1
+apt install opencl-headers
+apt install clinfo
+apt install ocl-icd-opencl-dev
+```
+Install with CUDA GPU integration:
+
+```
+pip install lightgbm --install-option=--gpu --install-option="--opencl-include-dir=/usr/local/cuda/include/" --install-option="--opencl-library=/usr/local/cuda/lib64/libOpenCL.so"
+```
+
+<a id="minepy--maximal-information-coefficient"></a>
+#### MINEPY / Maximal Information Coefficient
+
+For Minepy / Maximal Information Coefficient, we need the Visual Studio C++ Build Tools as a dependency, so install it first:<br>
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+```
+pip install minepy
+```
+
+<a id="computer-vision-opencv"></a>
+#### Computer Vision (OpenCV)
+
+**Note to self: re-write with poetry project use instead of venv**
+
+with CPU and no extra options:
+
+```
+python -m pip install -U opencv-python opencv-contrib-python
+```
+
+
+<a id="install-opencv-with-ffmpeg"></a>
+##### Install OpenCV with ffmpeg
+
+Install dependencies:
+
+```
+apt-get update
+apt-get upgrade
+apt-get install build-essential
+apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+apt-get install libxvidcore-dev libx264-dev
+apt-get install libgtk-3-dev
+apt-get install libatlas-base-dev gfortran pylint
+apt-get install python2.7-dev python3.5-dev python3.6-dev
+apt-get install unzip
+```
+
+Now the ffmpeg dependency:
+```
+add-apt-repository ppa:jonathonf/ffmpeg-3
+apt update
+apt install ffmpeg libav-tools x264 x265
+```
+
+Check the version:
+```
+ffmpeg
+```
+
+Download and build opencv
+
+```
+wget https://github.com/opencv/opencv/archive/3.4.0.zip -O opencv-3.4.0.zip
+wget https://github.com/opencv/opencv_contrib/archive/3.4.0.zip -O opencv_contrib-3.4.0.zip
+
+unzip opencv-3.4.0.zip
+unzip opencv_contrib-3.4.0.zip
+
+cd  opencv-3.4.0
+mkdir build_3.5
+mkdir build
+cd build
+```
+
+Make, but remember to replace Python versions:
+
+```
+which python
+```
+
+```
+cmake -DCMAKE_BUILD_TYPE=Release \
+    -D WITH_FFMPEG=ON \
+    -D PYTHON3_EXECUTABLE=<path to your python> \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-3.4.0/modules \
+    -D OPENCV_ENABLE_NONFREE=True ..
+
+make -j8        #(where -j8 is for 8 cores in the server cpu)
+make install
+ldconfig
+```
+
+
+
+<a id="install-and-setup-flask-for-python-web-development"></a>
+## Install and setup Flask for Python Web Development
+
+**Note to self: re-write with poetry project use instead of venv**
+
+I'm using this guide:
+https://flask.palletsprojects.com/en/2.1.x/installation/#install-flask
+
+For Web Development, it's apparently better to make a Virtual Environment to install flask project-wise instead of system or user level.
+
+First we go to our project and make the virtual environment.
+
+```
+cd my-project
+python -m venv venv
+. venv/scripts/activate
+```
+it might also be
+```
+. venv/bin/activate
+```
+so if one fails try the other.
+
+Activate results in the python and pip versions to be internal to the project now and active in the bash:
+
+```
+which python
+>>> .... my-project\venv/Scripts/python
+
+pip --version
+pip 22.1 from c:\users\...\my-project\venv\lib\site-packages\pip (python 3.9)
+```
+
+So since this pip is empty, let's install ONLY what we need for the project:
+
+```
+pip install --upgrade pip
+pip install selenium beautifulsoup4 pandas pathlib retry
+pip install flask
+```
+
+Now let's test it:
+
+I'm using this guide here:
+
+https://flask.palletsprojects.com/en/2.1.x/quickstart/
+
+Under: `my-project/python/hello.py`
+```
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+```
+Then in bash:
+
+```
+cd my-project/python
+export FLASK_APP=hello
+flask run
+```
+and it should return:
+
+```
+ * Serving Flask app 'hello' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+```
+
+Unlike Jekyll, it won't update as you edit, unless you set up a development environment variable:
+
+```
+export FLASK_APP=hello
+export FLASK_ENV=development
+flask run
+```
+
+It will update, but you still have to click refresh on the screen.
+
+```
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<h1>Hello, World!</h1>"
+```
+
+Now to make the project a package and keep running under the same structure as before, now I use this structure: (which by the way you can output with `tree -a -N -n --charset ascii | pbcopy` on the terminal if you install it with Homebrew with `brew install tree`).
+
+```
+my-project
+|-- .gitignore
+|-- README.md
+|-- logs
+|   `-- tasklog.md
+|-- python
+|   |-- ProjectPaths.py
+|   |-- __pycache__
+|   |-- package
+|   |   |-- __init__.py
+|   |   |-- __pycache__
+|   |   `-- module.py
+|   `-- tests
+|       |-- 0_test.py
+|       `-- __pycache__
+|-- requirements.txt
+`-- venv
+```
+
+`ProjectPaths.py` is just a bunch of methods I like to call to make directories without much hassle.
+
+To run the tests and the files in the package, now the command is like this:
+
+```
+cd my-project/python
+python -m tests.0_test
+```
+
+Notice that it's a `.` instead of a `/` and also there's no `.py`
+It should now run and import as if from the parent directory `python`
+
+
 <a id="install-and-setup-ruby-bundler-and-jekyll-for-websites"></a>
 ## Install and setup Ruby, Bundler and Jekyll for websites
 
@@ -1689,7 +1746,7 @@ Be prepared to run your server in console only mode, since you'll be altering th
 ## Accessibility Stuff
 
 <a id="accessible-color-palettes-with-paletton"></a>
-### Accessible Color Palettes with Paletton 
+### Accessible Color Palettes with Paletton
 
 When designing new things it's important to keep in mind color theory, as well as accessibility for the visually impaired and color blind people, etc. But that's so much time one could spend doing so much else, so here's a tool that can help with that and also visualizing how other people with different ranges of color vision would perceive it. It's called Paletton.
 
