@@ -1,5 +1,8 @@
 # Linux (or WSL) Python setup environment for Machine learning Laboratory
 
+Note: Migrated repository to https://github.com/elisa-aleman/ai_python_dev_reference
+
+
 This is how I set up a fresh linux installation to start working in machine learning and programming. 
 
 It is also useful for WSL (Windows Subsystem for Linux) and I will add comments for it as well.
